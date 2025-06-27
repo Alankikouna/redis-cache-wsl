@@ -1,5 +1,7 @@
 # 🧠 Atelier Redis – Projet de démonstration
 
+
+
 Ce projet montre comment intégrer Redis dans une application web selon une architecture distribuée et utiliser Redis comme **cache côté serveur**.
 
 ---
@@ -48,25 +50,31 @@ redis-cache-wsl/
 
 ## 🌐 Partie 2 – Réplication Master / Slave
 
+
+
 Deux instances Redis :
 
 **Master sur port 6380 :**
 ```bash
 redis-server ./master.conf
 ```
+
+![alt text](image.png)
 **Slave sur port 6381 :**
 ```bash
 redis-server ./slave.conf
 ```
+![alt text](image-2.png)
 🔁 Test de réplication :
 ```bash
 redis-cli -p 6380 set projet "redis cool"
 redis-cli -p 6381 get projet  # Résultat attendu : redis cool
 ```
-
+![alt text](image-3.png)
 ---
 
 ## 💻 Partie 3 – Application web avec cache Redis
+
 
 📦 Lancement :
 ```bash
@@ -85,24 +93,42 @@ Formulaire avec retour visuel (clé, valeur, source, état du cache)
 
 ## 🔬 Partie 4 – Démonstration & validation
 
+
 ✅ Étapes du test visuel :
-1. Entrer une clé (ex : `test-key`)  
+1. Entrer une clé (ex : `test-key`) 
+![alt text](image-4.png) 
 2. Résultat lent ➝ *slow_db*  
+![alt text](image-5.png)
 3. Refaire la requête ➝ *cache*, réponse immédiate  
+![alt text](image-6.png)
 4. Attendre 60 s ➝ cache expire  
 5. Requête ➝ retour à *slow_db*, re-cache
+![alt text](image-7.png)
 
 🔧 Validation CLI :
 ```bash
 redis-cli -p 6380 get test-key
+```
+Affiche la valeur de la clé `test-key` sur l’instance Redis du port 6380 (master).
+![alt text](image-8.png)
+```bash
 redis-cli -p 6381 get test-key
+```
+Affiche la valeur de la même clé sur l’instance Redis du port 6381 (slave).  
+Permet de vérifier que la réplication fonctionne correctement.
+
+![alt text](image-9.png)
+```bash
 redis-cli -p 6380 ttl test-key
 ```
+Affiche le temps restant avant expiration (TTL) de la clé `test-key` sur le master.
+
+![alt text](image-10.png)
+
 
 📦 Fichiers de test  
 - `test_benchmark.py` ➝ test console (affiche durées)  
-- `demo_script.sh` ➝ test curl automatique  
-- `demo_script_html.sh` ➝ test dans navigateur
+![alt text](image-1.png)
 
 ---
 

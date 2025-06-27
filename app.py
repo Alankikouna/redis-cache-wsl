@@ -26,5 +26,18 @@ def get_data():
 
     return render_template('index.html', key=key, value=value, source=source, message=message)
 
+# --- AJOUT POUR LE BENCHMARK ---
+@app.route('/data/<key>', methods=['GET'])
+def get_data_json(key):
+    value = cache.get(key)
+    if value:
+        source = "cache"
+    else:
+        time.sleep(2)
+        value = f"Donnée générée pour « {key} »"
+        cache.setex(key, 60, value)
+        source = "slow_db"
+    return jsonify({"key": key, "value": value, "source": source})
+
 if __name__ == '__main__':
     app.run(debug=True)
