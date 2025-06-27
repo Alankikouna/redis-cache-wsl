@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Cache Redis</title>
+  <style>
+    body { font-family: Arial; margin: 40px; background: #f4f4f4; }
+    form { margin-bottom: 20px; }
+    input[type="text"] { padding: 8px; width: 250px; }
+    input[type="submit"] { padding: 8px 15px; background: #0e76a8; color: white; border: none; }
+    .result { margin-top: 20px; padding: 10px; background: white; border-left: 4px solid #0e76a8; }
+  </style>
+</head>
+<body>
+  <h1>🔍 Test de cache Redis</h1>
+  <form method="POST" action="/data">
+    <label>Entrer une clé :</label><br>
+    <input type="text" name="key" required>
+    <input type="submit" value="Chercher">
+  </form>
+
+  {% if value %}
+    <div class="result">
+      <p><strong>Clé :</strong> {{ key }}</p>
+      <p><strong>Valeur :</strong> {{ value }}</p>
+      <p><strong>Source :</strong> {{ source }}</p>
+      <p>{{ message }}</p>
+    </div>
+  {% endif %}
+</body>
+</html>
